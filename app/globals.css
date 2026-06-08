@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+}
+
+:root {
+  --bg:          #fafaf8;
+  --bg-card:     #ffffff;
+  --bg-muted:    #f4f3ef;
+  --border:      #e8e5de;
+  --text:        #1a1814;
+  --text-sub:    #6b6560;
+  --text-mute:   #a09990;
+  --accent:      #e8520a;
+  --accent-2:    #f97316;
+  --accent-soft: #fff1e8;
+}
+
+.dark {
+  --bg:          #111110;
+  --bg-card:     #1c1b19;
+  --bg-muted:    #242320;
+  --border:      #2e2d29;
+  --text:        #f0ede6;
+  --text-sub:    #9e9890;
+  --text-mute:   #5a5650;
+  --accent:      #f97316;
+  --accent-2:    #fb923c;
+  --accent-soft: #2a1a0e;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }

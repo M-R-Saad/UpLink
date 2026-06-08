@@ -1,0 +1,36 @@
+import { z } from "zod";
+export const createJobSchema = z.object({
+  title:            z.string().min(3, "Title required"),
+  category:         z.string().min(1, "Category required"),
+  description:      z.string().min(50, "Description must be at least 50 characters"),
+  requirements:     z.array(z.string()).default([]),
+  responsibilities: z.array(z.string()).default([]),
+  skills:           z.array(z.string()).default([]),
+  jobType:          z.enum(["full-time","part-time","contract","internship","freelance"]),
+  locationType:     z.enum(["onsite","remote","hybrid"]),
+  location:         z.string().optional(),
+  salary: z.object({
+    min:           z.number().optional(),
+    max:           z.number().optional(),
+    currency:      z.string().default("BDT"),
+    period:        z.enum(["monthly","yearly","hourly"]).default("monthly"),
+    isNegotiable:  z.boolean().default(false),
+    isUndisclosed: z.boolean().default(false),
+  }).optional(),
+  experience: z.enum(["entry","mid","senior","lead","any"]).default("any"),
+  deadline:   z.string().min(1, "Deadline required"),
+  vacancies:  z.number().min(1).default(1),
+  status:     z.enum(["active","draft"]).default("active"),
+});
+export const jobFilterSchema = z.object({
+  search:      z.string().optional(),
+  category:    z.string().optional(),
+  type:        z.string().optional(),
+  locationType:z.string().optional(),
+  location:    z.string().optional(),
+  experience:  z.string().optional(),
+  salaryMin:   z.number().optional(),
+  salaryMax:   z.number().optional(),
+  page:        z.number().default(1),
+  limit:       z.number().default(10),
+});
