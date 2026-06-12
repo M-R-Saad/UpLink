@@ -4,6 +4,7 @@ import { FiMapPin, FiUsers, FiClock, FiEye, FiArrowLeft, FiCalendar } from "reac
 import { JobTypeTag, LocationTag } from "../../../../components/jobs/JobTypeTag";
 import SalaryRange from "../../../../components/jobs/SalaryRange";
 import ApplyButton from "../../../../components/jobs/ApplyButton";
+import SaveJobButton from "../../../../components/jobs/SaveJobButton";
 import { formatDate, timeAgo } from "../../../../lib/utils";
 
 export async function generateMetadata({ params }) {
@@ -148,8 +149,11 @@ export default async function JobDetailPage({ params }) {
           <div className="p-5 rounded-2xl border"
             style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
             <SalaryRange salary={job.salary} />
-            <div className="mt-4">
-              <ApplyButton jobId={job._id} />
+            <div className="flex gap-2 mt-4">
+              <div className="flex-1">
+                <ApplyButton jobId={job._id} jobTitle={job.title} />
+              </div>
+              <SaveJobButton jobId={job._id} size="lg" />
             </div>
             <p className="text-xs mt-3 text-center" style={{ color: "var(--text-mute)" }}>
               Posted {timeAgo(job.createdAt)}

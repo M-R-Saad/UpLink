@@ -41,10 +41,46 @@ export default function ResumePage() {
   const handleSave = useCallback(async (resumeData) => {
     setSaving(true);
     try {
+      let uploadedUrl = null;
+
+      // Only attempt to compile and upload PDF if name is present
+      if (resumeData?.personalInfo?.name) {
+        try {
+          // Dynamic imports to avoid Next.js SSR issues with react-pdf
+          const { pdf } = await import("@react-pdf/renderer");
+          const { default: ResumePDF } = await import("../../../components/resume/ResumePDF");
+          
+          const blob = await pdf(<ResumePDF data={resumeData} />).toBlob();
+          const file = new File([blob], `${resumeData.personalInfo.name.replace(/\s+/g, "_")}_Resume.pdf`, {
+            type: "application/pdf"
+          });
+          
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("folder", "resumes");
+
+          const uploadRes = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const uploadJson = await uploadRes.json();
+          if (uploadJson.success) {
+            uploadedUrl = uploadJson.url;
+          } else {
+            console.error("Upload to Cloudinary failed:", uploadJson.message);
+          }
+        } catch (uploadErr) {
+          console.error("PDF generation or upload failed:", uploadErr);
+        }
+      }
+
       const res = await fetch("/api/resume", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ resumeData }),
+        body: JSON.stringify({ 
+          resumeData,
+          ...(uploadedUrl && { resumeURL: uploadedUrl })
+        }),
       });
       const json = await res.json();
       if (json.success) {
