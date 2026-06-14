@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,11 +33,7 @@ export default function CompanyPage() {
     resolver: zodResolver(createCompanySchema),
   });
 
-  useEffect(() => {
-    fetchCompany();
-  }, []);
-
-  const fetchCompany = async () => {
+  const fetchCompany = useCallback(async () => {
     try {
       const res = await fetch("/api/companies/mine");
       const json = await res.json();
@@ -60,7 +56,12 @@ export default function CompanyPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [reset]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchCompany();
+  }, [fetchCompany]);
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];

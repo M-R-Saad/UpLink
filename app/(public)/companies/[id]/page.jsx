@@ -1,5 +1,7 @@
 import { FiMapPin, FiUsers, FiGlobe, FiCalendar } from "react-icons/fi";
 import { notFound } from "next/navigation";
+import CompanyJobsList from "../../../../components/companies/CompanyJobsList";
+import CompanyReviews from "../../../../components/companies/CompanyReviews";
 
 export async function generateMetadata({ params }) {
   try {
@@ -28,9 +30,22 @@ async function getCompany(id) {
   }
 }
 
+async function getCompanyJobs(companyId) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/jobs?company=${companyId}&limit=6`,
+      { next: { revalidate: 60 } }
+    );
+    const json = await res.json();
+    return json.success ? json.data : [];
+  } catch {
+    return [];
+  }
+}
+
 export default async function CompanyPage({ params }) {
   const { id } = await params;
-  const company = await getCompany(id);
+  const [company, jobs] = await Promise.all([getCompany(id), getCompanyJobs(id)]);
   if (!company) notFound();
 
   return (
@@ -72,7 +87,7 @@ export default async function CompanyPage({ params }) {
               ★ {company.ratings.average.toFixed(1)}
             </p>
             <p className="text-xs" style={{ color: "var(--text-mute)" }}>
-              {company.ratings.count} reviews
+              {company.ratings.count} {company.ratings.count === 1 ? "review" : "reviews"}
             </p>
           </div>
         )}
@@ -88,13 +103,21 @@ export default async function CompanyPage({ params }) {
         </div>
       )}
 
-      {/* Placeholders for jobs and reviews — added in later phases */}
-      <div className="rounded-2xl border p-8 text-center"
-        style={{ borderColor: "var(--border)", background: "var(--bg-card)" }}>
-        <p className="text-sm" style={{ color: "var(--text-mute)" }}>
-          Job listings and reviews will appear here once jobs are posted.
-        </p>
+      {/* Open Positions */}
+      <div className="mb-10">
+        <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text)" }}>
+          Open Positions
+          {jobs.length > 0 && (
+            <span className="text-sm font-normal ml-2" style={{ color: "var(--text-mute)" }}>
+              ({jobs.length})
+            </span>
+          )}
+        </h2>
+        <CompanyJobsList jobs={jobs} />
       </div>
+
+      {/* Reviews */}
+      <CompanyReviews companyId={id} />
     </div>
   );
 }

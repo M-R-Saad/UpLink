@@ -11,9 +11,13 @@ export function ThemeProvider({ children }) {
     const saved = localStorage.getItem("uplink-theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const isDark = saved ? saved === "dark" : prefersDark;
-    setDark(isDark);
     document.documentElement.classList.toggle("dark", isDark);
-    setMounted(true);
+    
+    const handle = requestAnimationFrame(() => {
+      setDark(isDark);
+      setMounted(true);
+    });
+    return () => cancelAnimationFrame(handle);
   }, []);
 
   const toggle = () => {

@@ -48,7 +48,7 @@ export default function ProfilePage() {
         },
       });
     }
-  }, [profile]);
+  }, [profile, reset]);
 
   const addSkill = () => {
     const val = skillInput.trim();

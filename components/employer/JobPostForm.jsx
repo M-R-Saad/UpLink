@@ -231,7 +231,7 @@ export default function JobPostForm({ onSubmit, defaultValues, loading }) {
           </label>
           <label className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: "var(--text-sub)" }}>
             <input type="checkbox" {...register("salary.isUndisclosed")} className="accent-[var(--accent)]" />
-            Hide salary (show "Competitive")
+            Hide salary (show &quot;Competitive&quot;)
           </label>
         </div>
       </Section>

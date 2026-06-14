@@ -16,6 +16,7 @@ export default function LinksStep() {
   // Sync store → form on hydration
   useEffect(() => {
     reset(links);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [links.github, links.linkedin]); // re-sync on initial load
 
   // Live sync: form → store

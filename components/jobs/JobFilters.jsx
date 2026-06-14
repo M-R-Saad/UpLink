@@ -5,6 +5,32 @@ const JOB_TYPES     = ["full-time","part-time","contract","internship","freelanc
 const LOCATION_TYPES= ["onsite","remote","hybrid"];
 const EXPERIENCE    = ["entry","mid","senior","lead"];
 
+const FilterGroup = ({ title, items, filterKey, labelFn, currentVal, onToggle }) => (
+  <div className="mb-5">
+    <p className="text-xs font-semibold uppercase tracking-widest mb-2"
+      style={{ color: "var(--text-mute)" }}>{title}</p>
+    <div className="space-y-1">
+      {items.map((item) => {
+        const val    = typeof item === "string" ? item : item._id;
+        const label  = labelFn ? labelFn(item) : item;
+        const active = currentVal === val;
+        return (
+          <button key={val}
+            onClick={() => onToggle(filterKey, active ? "" : val)}
+            className="w-full text-left px-3 py-1.5 rounded-lg text-sm transition capitalize"
+            style={{
+              background: active ? "var(--accent-soft)" : "transparent",
+              color:      active ? "var(--accent)"      : "var(--text-sub)",
+              fontWeight: active ? 600                  : 400,
+            }}>
+            {label}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+);
+
 export default function JobFilters({ categories = [] }) {
   const router       = useRouter();
   const searchParams = useSearchParams();
@@ -19,32 +45,6 @@ export default function JobFilters({ categories = [] }) {
 
   const current = (key) => searchParams.get(key) || "";
   const clearAll = () => router.push("/jobs");
-
-  const FilterGroup = ({ title, items, filterKey, labelFn }) => (
-    <div className="mb-5">
-      <p className="text-xs font-semibold uppercase tracking-widest mb-2"
-        style={{ color: "var(--text-mute)" }}>{title}</p>
-      <div className="space-y-1">
-        {items.map((item) => {
-          const val    = typeof item === "string" ? item : item._id;
-          const label  = labelFn ? labelFn(item) : item;
-          const active = current(filterKey) === val;
-          return (
-            <button key={val}
-              onClick={() => updateFilter(filterKey, active ? "" : val)}
-              className="w-full text-left px-3 py-1.5 rounded-lg text-sm transition capitalize"
-              style={{
-                background: active ? "var(--accent-soft)" : "transparent",
-                color:      active ? "var(--accent)"      : "var(--text-sub)",
-                fontWeight: active ? 600                  : 400,
-              }}>
-              {label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
 
   const hasFilters = ["category","type","locationType","experience"]
     .some((k) => searchParams.get(k));
@@ -64,11 +64,13 @@ export default function JobFilters({ categories = [] }) {
         <FilterGroup
           title="Category" filterKey="category" items={categories}
           labelFn={(c) => `${c.icon} ${c.name}`}
+          currentVal={current("category")}
+          onToggle={updateFilter}
         />
       )}
-      <FilterGroup title="Job Type"     filterKey="type"         items={JOB_TYPES}      />
-      <FilterGroup title="Work Mode"    filterKey="locationType" items={LOCATION_TYPES}  />
-      <FilterGroup title="Experience"   filterKey="experience"   items={EXPERIENCE}      />
+      <FilterGroup title="Job Type"     filterKey="type"         items={JOB_TYPES}      currentVal={current("type")} onToggle={updateFilter} />
+      <FilterGroup title="Work Mode"    filterKey="locationType" items={LOCATION_TYPES}  currentVal={current("locationType")} onToggle={updateFilter} />
+      <FilterGroup title="Experience"   filterKey="experience"   items={EXPERIENCE}      currentVal={current("experience")} onToggle={updateFilter} />
     </aside>
   );
 }

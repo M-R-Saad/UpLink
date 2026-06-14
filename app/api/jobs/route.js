@@ -24,6 +24,7 @@ export async function GET(req) {
     const location    = searchParams.get("location")       || "";
     const experience  = searchParams.get("experience")     || "";
     const featured    = searchParams.get("featured")       || "";
+    const companyId   = searchParams.get("company")        || "";
 
     // Base filter — always applied on public queries
     const filter = {
@@ -41,9 +42,13 @@ export async function GET(req) {
     // Text search
     if (search) filter.$text = { $search: search };
 
-    // Only show jobs from approved companies
-    const approvedCompanies = await Company.find({ isApproved: true, isActive: true }).distinct("_id");
-    filter.company = { $in: approvedCompanies };
+    // Filter by specific company or only approved companies
+    if (companyId) {
+      filter.company = companyId;
+    } else {
+      const approvedCompanies = await Company.find({ isApproved: true, isActive: true }).distinct("_id");
+      filter.company = { $in: approvedCompanies };
+    }
 
     const total = await Job.countDocuments(filter);
     const jobs  = await Job.find(filter)

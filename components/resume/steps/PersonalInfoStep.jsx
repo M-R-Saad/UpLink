@@ -16,6 +16,7 @@ export default function PersonalInfoStep() {
   // Sync store → form when store loads from API
   useEffect(() => {
     reset(info);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [info.name, info.email]); // re-sync on initial hydration
 
   // Live sync: form → store on every change

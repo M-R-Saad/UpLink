@@ -62,7 +62,7 @@ export default function LoginPage() {
     <div>
       <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--text)" }}>Welcome back</h1>
       <p className="text-sm mb-6" style={{ color: "var(--text-sub)" }}>
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/register" className="font-medium hover:underline" style={{ color: "var(--accent)" }}>
           Sign up
         </Link>

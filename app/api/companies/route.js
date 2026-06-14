@@ -15,7 +15,12 @@ export async function GET(req) {
     const limit = Number(searchParams.get("limit")) || 12;
     const search = searchParams.get("search") || "";
 
-    const filter = { isApproved: true, isActive: true };
+    const filter = {};
+    const includeAll = searchParams.get("includeAll");
+    if (!includeAll) {
+      filter.isApproved = true;
+      filter.isActive = true;
+    }
     if (search) filter.name = { $regex: search, $options: "i" };
 
     const total = await Company.countDocuments(filter);

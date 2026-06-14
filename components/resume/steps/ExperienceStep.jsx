@@ -47,7 +47,7 @@ export default function ExperienceStep() {
           style={{ borderColor: "var(--border)", color: "var(--text-mute)" }}>
           <FiBriefcase size={32} className="mb-3 opacity-40" />
           <p className="text-sm font-medium">No experience added yet</p>
-          <p className="text-xs mt-1">Click "Add" to start adding your work history</p>
+          <p className="text-xs mt-1">Click &quot;Add&quot; to start adding your work history</p>
         </div>
       )}
 

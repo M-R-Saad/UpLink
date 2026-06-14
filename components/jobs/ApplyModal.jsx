@@ -19,9 +19,11 @@ export default function ApplyModal({ open, onClose, jobId, jobTitle }) {
   // Fetch profile resume URL on open
   useEffect(() => {
     if (open) {
-      setSuccess(false);
-      setCoverLetter("");
-      setResumeSource("profile");
+      const handle = requestAnimationFrame(() => {
+        setSuccess(false);
+        setCoverLetter("");
+        setResumeSource("profile");
+      });
       fetch("/api/profile")
         .then((r) => r.json())
         .then((j) => {
@@ -34,6 +36,7 @@ export default function ApplyModal({ open, onClose, jobId, jobTitle }) {
           }
         })
         .catch(() => {});
+      return () => cancelAnimationFrame(handle);
     }
   }, [open]);
 

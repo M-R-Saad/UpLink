@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { FiPlus, FiEdit2, FiEyeOff, FiEye, FiTrash2, FiUsers, FiExternalLink } from "react-icons/fi";
 import toast from "react-hot-toast";
@@ -16,9 +16,7 @@ export default function ManageJobsPage() {
   const [loading, setLoading] = useState(true);
   const [confirm, setConfirm] = useState(null);
 
-  useEffect(() => { fetchJobs(); }, []);
-
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     try {
       const res  = await fetch("/api/jobs/mine");
       const json = await res.json();
@@ -28,7 +26,10 @@ export default function ManageJobsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { fetchJobs(); }, [fetchJobs]);
 
   const handleStatusToggle = async (job) => {
     const newStatus = job.status === "active" ? "paused" : "active";
