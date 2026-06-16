@@ -1,7 +1,7 @@
-import { connectDB } from "../../../../lib/db";
-import Review from "../../../../models/Review";
-import Company from "../../../../models/Company";
-import { auth } from "../../../../lib/auth";
+import { connectDB } from "../../../../../lib/db";
+import Review from "../../../../../models/Review";
+import Company from "../../../../../models/Company";
+import { auth } from "../../../../../lib/auth";
 
 export const runtime = "nodejs";
 
