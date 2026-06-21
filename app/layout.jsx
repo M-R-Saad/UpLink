@@ -10,6 +10,9 @@ const outfit = Outfit({
 export const metadata = {
   title: { default: "UpLink — Find Your Next Opportunity", template: "%s — UpLink" },
   description: "UpLink connects talented professionals with great companies.",
+  icons: {
+    icon: "/uplink_logo_no_bg.png",
+  },
 };
 
 export default function RootLayout({ children }) {

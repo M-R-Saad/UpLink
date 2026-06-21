@@ -9,7 +9,7 @@ export default function CTASection() {
           {/* Job Seekers CTA */}
           <div className="relative overflow-hidden p-8 md:p-10 rounded-3xl"
             style={{
-              background: "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+              background: "linear-gradient(135deg, var(--cta-1-from) 0%, var(--cta-1-to) 100%)",
             }}>
             {/* Decorative circle */}
             <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10" />
@@ -23,11 +23,12 @@ export default function CTASection() {
                 style={{ fontFamily: "'Playfair Display', serif" }}>
                 Looking for a Job?
               </h3>
-              <p className="text-sm text-blue-100 leading-relaxed mb-6 max-w-sm">
+              <p className="text-sm text-white/80 leading-relaxed mb-6 max-w-sm">
                 Create your profile, build a professional resume, and apply to thousands of opportunities with just one click.
               </p>
               <Link href="/register"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition hover:opacity-90 bg-white text-blue-600">
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition hover:opacity-90 bg-white"
+                style={{ color: "var(--cta-1-from)" }}>
                 Get Started Free
                 <FiArrowRight size={15} />
               </Link>
@@ -37,7 +38,7 @@ export default function CTASection() {
           {/* Employers CTA */}
           <div className="relative overflow-hidden p-8 md:p-10 rounded-3xl"
             style={{
-              background: "linear-gradient(135deg, var(--accent) 0%, #c2410c 100%)",
+              background: "linear-gradient(135deg, var(--cta-2-from) 0%, var(--cta-2-to) 100%)",
             }}>
             {/* Decorative circle */}
             <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10" />
@@ -51,12 +52,12 @@ export default function CTASection() {
                 style={{ fontFamily: "'Playfair Display', serif" }}>
                 Ready to Hire?
               </h3>
-              <p className="text-sm text-orange-100 leading-relaxed mb-6 max-w-sm">
+              <p className="text-sm text-white/80 leading-relaxed mb-6 max-w-sm">
                 Post your job listings, review applicant resumes, and find the perfect candidate for your team.
               </p>
               <Link href="/register"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition hover:opacity-90 bg-white"
-                style={{ color: "var(--accent)" }}>
+                style={{ color: "var(--cta-2-from)" }}>
                 Post a Job Now
                 <FiArrowRight size={15} />
               </Link>

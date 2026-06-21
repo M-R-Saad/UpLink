@@ -1,19 +1,23 @@
 "use client";
 import { useState, useEffect } from "react";
-import { FiX } from "react-icons/fi";
+import { FiX, FiSearch } from "react-icons/fi";
+import CategoryIcon, { AVAILABLE_ICONS } from "../ui/CategoryIcon";
 
 export default function CategoryForm({ category, onClose, onSave }) {
   const [name, setName] = useState("");
-  const [icon, setIcon] = useState("💼");
+  const [icon, setIcon] = useState("FiBriefcase");
   const [description, setDescription] = useState("");
   const [saving, setSaving] = useState(false);
+  const [iconSearch, setIconSearch] = useState("");
 
   const isEdit = !!category;
 
   useEffect(() => {
     if (category) {
       setName(category.name || "");
-      setIcon(category.icon || "💼");
+      // If existing icon is an emoji (not starting with "Fi"), default to FiBriefcase
+      const existingIcon = category.icon || "FiBriefcase";
+      setIcon(existingIcon.startsWith("Fi") ? existingIcon : "FiBriefcase");
       setDescription(category.description || "");
     }
   }, [category]);
@@ -43,10 +47,17 @@ export default function CategoryForm({ category, onClose, onSave }) {
     }
   };
 
+  const filteredIcons = iconSearch
+    ? AVAILABLE_ICONS.filter((i) =>
+        i.label.toLowerCase().includes(iconSearch.toLowerCase()) ||
+        i.name.toLowerCase().includes(iconSearch.toLowerCase())
+      )
+    : AVAILABLE_ICONS;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onClose}>
       <div
-        className="w-full max-w-md mx-4 p-6 rounded-2xl border shadow-xl"
+        className="w-full max-w-md mx-4 p-6 rounded-2xl border shadow-xl max-h-[90vh] overflow-y-auto"
         style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -61,17 +72,56 @@ export default function CategoryForm({ category, onClose, onSave }) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Icon Picker */}
           <div>
             <label className="text-xs font-medium mb-1.5 block" style={{ color: "var(--text-sub)" }}>
-              Icon (emoji)
+              Icon
             </label>
-            <input
-              type="text"
-              value={icon}
-              onChange={(e) => setIcon(e.target.value)}
-              className="w-20 px-3 py-2.5 rounded-xl text-center text-lg border outline-none"
-              style={{ background: "var(--bg-muted)", borderColor: "var(--border)", color: "var(--text)" }}
-            />
+
+            {/* Selected icon preview */}
+            <div className="flex items-center gap-3 mb-3 p-3 rounded-xl border"
+              style={{ borderColor: "var(--border)", background: "var(--bg-muted)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>
+                <CategoryIcon icon={icon} size={22} />
+              </div>
+              <span className="text-sm font-medium" style={{ color: "var(--text)" }}>
+                {AVAILABLE_ICONS.find((i) => i.name === icon)?.label || icon}
+              </span>
+            </div>
+
+            {/* Search */}
+            <div className="relative mb-2">
+              <FiSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--text-mute)" }} />
+              <input
+                type="text"
+                value={iconSearch}
+                onChange={(e) => setIconSearch(e.target.value)}
+                placeholder="Search icons..."
+                className="w-full pl-8 pr-3 py-2 rounded-xl text-xs border outline-none"
+                style={{ background: "var(--bg-muted)", borderColor: "var(--border)", color: "var(--text)" }}
+              />
+            </div>
+
+            {/* Icon grid */}
+            <div className="grid grid-cols-8 gap-1 max-h-36 overflow-y-auto p-1 rounded-xl border"
+              style={{ borderColor: "var(--border)", background: "var(--bg-muted)" }}>
+              {filteredIcons.map((item) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() => setIcon(item.name)}
+                  className="p-2 rounded-lg transition-all flex items-center justify-center"
+                  style={{
+                    background: icon === item.name ? "var(--accent)" : "transparent",
+                    color: icon === item.name ? "#fff" : "var(--text-sub)",
+                  }}
+                  title={item.label}
+                >
+                  <CategoryIcon icon={item.name} size={16} />
+                </button>
+              ))}
+            </div>
           </div>
 
           <div>

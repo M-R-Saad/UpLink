@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FiBell, FiBellOff, FiEdit2, FiTrash2, FiClock, FiMapPin } from "react-icons/fi";
 import { useToggleAlert, useDeleteAlert } from "../../hooks/useAlerts";
 import Badge from "../ui/Badge";
+import CategoryIcon from "../ui/CategoryIcon";
 import { timeAgo } from "../../lib/utils";
 
 const JOB_TYPE_LABELS = {
@@ -122,10 +123,10 @@ export default function AlertCard({ alert, onEdit }) {
             {alert.categories.map((cat) => (
               <span
                 key={cat._id || cat}
-                className="text-xs px-2 py-0.5 rounded-md font-medium"
+                className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-md font-medium"
                 style={{ background: "var(--bg-muted)", color: "var(--text-sub)" }}
               >
-                {cat.icon} {cat.name}
+                <CategoryIcon icon={cat.icon} size={12} /> {cat.name}
               </span>
             ))}
           </div>

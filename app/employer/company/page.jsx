@@ -109,7 +109,7 @@ export default function CompanyPage() {
   );
 
   return (
-    <div className="max-w-2xl">
+    <div>
       <div className="mb-6">
         <h1 className="text-xl font-bold" style={{ color: "var(--text)" }}>
           {company ? "Edit Company Profile" : "Create Company Profile"}
@@ -132,84 +132,98 @@ export default function CompanyPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Logo upload */}
-        <div>
-          <p className="text-sm font-medium mb-2" style={{ color: "var(--text)" }}>Company Logo</p>
-          <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-2xl border-2 border-dashed flex items-center justify-center overflow-hidden flex-shrink-0"
-              style={{ borderColor: "var(--border)", background: "var(--bg-muted)" }}>
-              {logoPreview
-                ? <img src={logoPreview} alt="logo" className="w-full h-full object-cover" />
-                : <FiUpload size={20} style={{ color: "var(--text-mute)" }} />
-              }
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left column — Basic Info */}
+          <div className="space-y-5">
+            <div className="p-6 rounded-2xl border" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
+              <h2 className="font-semibold mb-4" style={{ color: "var(--text)" }}>Basic Information</h2>
+              {/* Logo upload */}
+              <div className="mb-4">
+                <p className="text-sm font-medium mb-2" style={{ color: "var(--text)" }}>Company Logo</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-20 h-20 rounded-2xl border-2 border-dashed flex items-center justify-center overflow-hidden flex-shrink-0"
+                    style={{ borderColor: "var(--border)", background: "var(--bg-muted)" }}>
+                    {logoPreview
+                      ? <img src={logoPreview} alt="logo" className="w-full h-full object-cover" />
+                      : <FiUpload size={20} style={{ color: "var(--text-mute)" }} />
+                    }
+                  </div>
+                  <div>
+                    <label className="cursor-pointer">
+                      <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border text-sm font-medium transition hover:opacity-80"
+                        style={{ borderColor: "var(--border)", color: "var(--text-sub)", background: "var(--bg-card)" }}>
+                        <FiUpload size={13} />
+                        {uploading ? "Uploading..." : "Upload Logo"}
+                      </span>
+                      <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
+                    </label>
+                    <p className="text-xs mt-1" style={{ color: "var(--text-mute)" }}>PNG or JPG, max 2MB</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <Input label="Company Name" placeholder="e.g. TechCorp BD" error={errors.name?.message} {...register("name")} />
+                <Textarea label="Description" placeholder="Tell job seekers about your company..." rows={4} error={errors.description?.message} {...register("description")} />
+              </div>
             </div>
-            <div>
-              <label className="cursor-pointer">
-                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border text-sm font-medium transition hover:opacity-80"
-                  style={{ borderColor: "var(--border)", color: "var(--text-sub)", background: "var(--bg-card)" }}>
-                  <FiUpload size={13} />
-                  {uploading ? "Uploading..." : "Upload Logo"}
-                </span>
-                <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
-              </label>
-              <p className="text-xs mt-1" style={{ color: "var(--text-mute)" }}>PNG or JPG, max 2MB</p>
+
+            <div className="p-6 rounded-2xl border" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
+              <h2 className="font-semibold mb-4" style={{ color: "var(--text)" }}>Social Links</h2>
+              <div className="space-y-3">
+                <Input placeholder="LinkedIn URL" {...register("socialLinks.linkedin")} />
+                <Input placeholder="Twitter URL" {...register("socialLinks.twitter")} />
+                <Input placeholder="Facebook URL" {...register("socialLinks.facebook")} />
+              </div>
+            </div>
+          </div>
+
+          {/* Right column — Details */}
+          <div className="space-y-5">
+            <div className="p-6 rounded-2xl border" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
+              <h2 className="font-semibold mb-4" style={{ color: "var(--text)" }}>Company Details</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1" style={{ color: "var(--text)" }}>Industry</label>
+                  <select
+                    {...register("industry")}
+                    className="w-full rounded-xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                    style={{ borderColor: errors.industry ? "#f87171" : "var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
+                  >
+                    <option value="">Select industry</option>
+                    {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
+                  </select>
+                  {errors.industry && <p className="text-xs text-red-500 mt-1">{errors.industry.message}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1" style={{ color: "var(--text)" }}>Company Size</label>
+                  <select
+                    {...register("size")}
+                    className="w-full rounded-xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                    style={{ borderColor: "var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
+                  >
+                    {SIZES.map((s) => <option key={s} value={s}>{s} employees</option>)}
+                  </select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <Input label="Founded Year" type="number" placeholder="2020" {...register("founded", { valueAsNumber: true })} />
+                  <Input label="Location" placeholder="Dhaka, Bangladesh" {...register("location")} />
+                </div>
+
+                <Input label="Website" placeholder="https://yourcompany.com" error={errors.website?.message} {...register("website")} />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Basic info */}
-        <div className="grid grid-cols-1 gap-4">
-          <Input label="Company Name" placeholder="e.g. TechCorp BD" error={errors.name?.message} {...register("name")} />
-          <Textarea label="Description" placeholder="Tell job seekers about your company..." rows={4} error={errors.description?.message} {...register("description")} />
+        <div className="mt-6">
+          <Button type="submit" loading={saving || uploading} fullWidth>
+            {company ? "Save Changes" : "Create Company"}
+          </Button>
         </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text)" }}>Industry</label>
-            <select
-              {...register("industry")}
-              className="w-full rounded-xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-              style={{ borderColor: errors.industry ? "#f87171" : "var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-            >
-              <option value="">Select industry</option>
-              {INDUSTRIES.map((i) => <option key={i} value={i}>{i}</option>)}
-            </select>
-            {errors.industry && <p className="text-xs text-red-500 mt-1">{errors.industry.message}</p>}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text)" }}>Company Size</label>
-            <select
-              {...register("size")}
-              className="w-full rounded-xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-              style={{ borderColor: "var(--border)", background: "var(--bg-card)", color: "var(--text)" }}
-            >
-              {SIZES.map((s) => <option key={s} value={s}>{s} employees</option>)}
-            </select>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <Input label="Founded Year" type="number" placeholder="2020" {...register("founded", { valueAsNumber: true })} />
-          <Input label="Location" placeholder="Dhaka, Bangladesh" {...register("location")} />
-        </div>
-
-        <Input label="Website" placeholder="https://yourcompany.com" error={errors.website?.message} {...register("website")} />
-
-        {/* Social links */}
-        <div>
-          <p className="text-sm font-medium mb-3" style={{ color: "var(--text)" }}>Social Links</p>
-          <div className="space-y-3">
-            <Input placeholder="LinkedIn URL" {...register("socialLinks.linkedin")} />
-            <Input placeholder="Twitter URL" {...register("socialLinks.twitter")} />
-            <Input placeholder="Facebook URL" {...register("socialLinks.facebook")} />
-          </div>
-        </div>
-
-        <Button type="submit" loading={saving || uploading} fullWidth>
-          {company ? "Save Changes" : "Create Company"}
-        </Button>
       </form>
     </div>
   );

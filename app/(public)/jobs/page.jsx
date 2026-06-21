@@ -31,10 +31,11 @@ async function getCategories() {
 }
 
 export default async function JobsPage({ searchParams }) {
-  const [result, categories] = await Promise.all([getJobs(searchParams), getCategories()]);
+  const resolvedSearchParams = await searchParams;
+  const [result, categories] = await Promise.all([getJobs(resolvedSearchParams), getCategories()]);
   const jobs       = result.data       || [];
   const pagination = result.pagination || { total: 0, pages: 1, page: 1 };
-  const page       = Number(searchParams?.page) || 1;
+  const page       = Number(resolvedSearchParams?.page) || 1;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">

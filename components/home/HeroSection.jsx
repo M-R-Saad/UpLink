@@ -68,7 +68,7 @@ export default function HeroSection() {
           style={{ fontFamily: "'Playfair Display', serif", color: "var(--text)" }}>
           Find Your Next{" "}
           <span className="relative">
-            <span style={{ color: "var(--accent)" }}>Opportunity</span>
+            <span className="gradient-text">Opportunity</span>
             <svg className="absolute -bottom-1 left-0 w-full h-2" viewBox="0 0 200 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 5.5C40 2 80 1 100 3C120 5 160 6.5 199 2.5" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" opacity="0.35" />
             </svg>
@@ -83,7 +83,7 @@ export default function HeroSection() {
 
         {/* Search Bar */}
         <form onSubmit={handleSearch}
-          className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-2 p-2 rounded-2xl border shadow-lg"
+          className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-2 p-2 rounded-2xl border shadow-lg card-glow"
           style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
           <div className="flex items-center gap-2 flex-1 px-3">
             <FiSearch size={18} style={{ color: "var(--text-mute)", flexShrink: 0 }} />

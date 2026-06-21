@@ -84,7 +84,7 @@ export default function ApplicationsPage() {
           }
         />
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {applications.map((app) => (
             <ApplicationCard key={app._id} application={app} />
           ))}

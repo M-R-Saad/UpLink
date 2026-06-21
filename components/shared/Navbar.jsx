@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
-import { FiBriefcase, FiSun, FiMoon, FiChevronDown } from "react-icons/fi";
+import { FiSun, FiMoon, FiChevronDown } from "react-icons/fi";
 import { useTheme } from "./ThemeProvider";
 import Avatar from "../ui/Avatar";
 import Button from "../ui/Button";
@@ -38,12 +38,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white"
-            style={{ background: "var(--accent)" }}>
-            <FiBriefcase size={16} />
-          </div>
-          <span style={{ color: "var(--text)" }}>Up</span>
-          <span style={{ color: "var(--accent)" }}>Link</span>
+          <img src="/uplink_logo_no_bg.png" alt="UpLink" className="w-8 h-8 object-contain" />
+          <span style={{ fontFamily: "'Playfair Display', serif", color: "var(--text)" }}>
+            Up<span style={{ color: "var(--accent)" }}>Link</span>
+          </span>
         </Link>
 
         {/* Desktop nav */}
@@ -92,12 +90,14 @@ export default function Navbar() {
                     style={{ color: "var(--text)" }}>
                     Dashboard
                   </Link>
-                  <Link href={`${dashboardHref === "/dashboard" ? "/dashboard" : "/employer"}/profile`}
-                    onClick={() => setDropdownOpen(false)}
-                    className="block px-4 py-2 text-sm hover:bg-[var(--bg-muted)] transition"
-                    style={{ color: "var(--text)" }}>
-                    Profile
-                  </Link>
+                  {session.user.role === "jobseeker" && (
+                    <Link href="/dashboard/profile"
+                      onClick={() => setDropdownOpen(false)}
+                      className="block px-4 py-2 text-sm hover:bg-[var(--bg-muted)] transition"
+                      style={{ color: "var(--text)" }}>
+                      Profile
+                    </Link>
+                  )}
                   <hr className="my-1" style={{ borderColor: "var(--border)" }} />
                   <button onClick={handleSignOut}
                     className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-[var(--bg-muted)] transition">

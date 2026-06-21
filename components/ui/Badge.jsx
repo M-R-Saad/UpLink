@@ -3,12 +3,12 @@ import { cn } from "../../lib/utils";
 const variants = {
   default:     "bg-[var(--bg-muted)] text-[var(--text-sub)]",
   accent:      "bg-[var(--accent-soft)] text-[var(--accent)]",
-  green:       "bg-green-100 text-green-700",
-  blue:        "bg-blue-100 text-blue-700",
-  yellow:      "bg-yellow-100 text-yellow-700",
-  red:         "bg-red-100 text-red-700",
-  purple:      "bg-purple-100 text-purple-700",
-  cyan:        "bg-cyan-100 text-cyan-700",
+  green:       "bg-[var(--badge-green-soft)] text-[var(--badge-green)]",
+  blue:        "bg-[var(--badge-blue-soft)] text-[var(--badge-blue)]",
+  yellow:      "bg-[var(--badge-yellow-soft)] text-[var(--badge-yellow)]",
+  red:         "bg-[var(--badge-red-soft)] text-[var(--badge-red)]",
+  purple:      "bg-[var(--badge-purple-soft)] text-[var(--badge-purple)]",
+  cyan:        "bg-[var(--badge-cyan-soft)] text-[var(--badge-cyan)]",
 };
 
 const JOB_TYPE_VARIANTS = {

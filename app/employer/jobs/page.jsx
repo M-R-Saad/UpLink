@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { FiPlus, FiEdit2, FiEyeOff, FiEye, FiTrash2, FiUsers, FiExternalLink } from "react-icons/fi";
+import { FiPlus, FiEdit2, FiEyeOff, FiEye, FiTrash2, FiUsers, FiExternalLink, FiCalendar, FiMapPin } from "react-icons/fi";
 import toast from "react-hot-toast";
 import Badge from "../../../components/ui/Badge";
 import ConfirmDialog from "../../../components/ui/ConfirmDialog";
@@ -73,9 +73,9 @@ export default function ManageJobsPage() {
       </div>
 
       {loading ? (
-        <div className="space-y-3">
-          {[1,2,3].map((i) => (
-            <div key={i} className="h-20 rounded-2xl animate-pulse"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {[1,2,3,4].map((i) => (
+            <div key={i} className="h-40 rounded-2xl animate-pulse"
               style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }} />
           ))}
         </div>
@@ -91,78 +91,69 @@ export default function ManageJobsPage() {
           </Link>
         </div>
       ) : (
-        <div className="rounded-2xl border overflow-hidden"
-          style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
-          <table className="w-full text-sm">
-            <thead className="border-b" style={{ borderColor: "var(--border)", background: "var(--bg-muted)" }}>
-              <tr>
-                {["Job Title","Category","Applications","Deadline","Status","Actions"].map((h) => (
-                  <th key={h} className="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: "var(--text-mute)" }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y" style={{ borderColor: "var(--border)" }}>
-              {jobs.map((job) => (
-                <tr key={job._id} className="hover:opacity-80 transition">
-                  <td className="px-5 py-4">
-                    <p className="font-medium" style={{ color: "var(--text)" }}>{job.title}</p>
-                    <p className="text-xs mt-0.5 capitalize" style={{ color: "var(--text-mute)" }}>
-                      {job.jobType} · {job.locationType}
-                    </p>
-                  </td>
-                  <td className="px-5 py-4 text-xs" style={{ color: "var(--text-sub)" }}>
-                    {job.category?.icon} {job.category?.name}
-                  </td>
-                  <td className="px-5 py-4">
-                    <Link href={`/employer/jobs/${job._id}/applicants`}
-                      className="inline-flex items-center gap-1 text-xs font-semibold hover:underline"
-                      style={{ color: "var(--accent)" }}>
-                      <FiUsers size={12} />
-                      {job.applicationCount} applicant{job.applicationCount !== 1 ? "s" : ""}
-                    </Link>
-                  </td>
-                  <td className="px-5 py-4 text-xs" style={{ color: "var(--text-sub)" }}>
-                    {formatDate(job.deadline)}
-                  </td>
-                  <td className="px-5 py-4">
-                    <Badge variant={STATUS_VARIANT[job.status]} className="capitalize">{job.status}</Badge>
-                  </td>
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-1.5">
-                      {/* View public listing */}
-                      <Link href={`/jobs/${job._id}`} target="_blank"
-                        className="p-1.5 rounded-lg transition hover:opacity-70"
-                        style={{ color: "var(--text-sub)" }} title="View public listing">
-                        <FiExternalLink size={14} />
-                      </Link>
-                      {/* Edit */}
-                      <Link href={`/employer/jobs/${job._id}/edit`}
-                        className="p-1.5 rounded-lg transition hover:opacity-70"
-                        style={{ color: "var(--text-sub)" }} title="Edit">
-                        <FiEdit2 size={14} />
-                      </Link>
-                      {/* Pause / Unpause */}
-                      {(job.status === "active" || job.status === "paused") && (
-                        <button onClick={() => handleStatusToggle(job)}
-                          className="p-1.5 rounded-lg transition hover:opacity-70"
-                          style={{ color: "var(--text-sub)" }}
-                          title={job.status === "active" ? "Pause" : "Unpause"}>
-                          {job.status === "active" ? <FiEyeOff size={14} /> : <FiEye size={14} />}
-                        </button>
-                      )}
-                      {/* Close */}
-                      <button onClick={() => setConfirm({ id: job._id })}
-                        className="p-1.5 rounded-lg transition hover:opacity-70 text-red-400"
-                        title="Close job">
-                        <FiTrash2 size={14} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {jobs.map((job) => (
+            <div key={job._id} className="rounded-2xl border p-5 transition hover:shadow-md"
+              style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
+              {/* Header */}
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1 min-w-0 mr-3">
+                  <h3 className="font-semibold text-sm truncate" style={{ color: "var(--text)" }}>{job.title}</h3>
+                  <p className="text-xs mt-0.5 capitalize" style={{ color: "var(--text-mute)" }}>
+                    {job.jobType} · {job.locationType}
+                  </p>
+                </div>
+                <Badge variant={STATUS_VARIANT[job.status]} className="capitalize flex-shrink-0">{job.status}</Badge>
+              </div>
+
+              {/* Info row */}
+              <div className="flex flex-wrap gap-3 mb-4 text-xs" style={{ color: "var(--text-sub)" }}>
+                {job.category?.name && (
+                  <span className="flex items-center gap-1">
+                    {job.category.icon} {job.category.name}
+                  </span>
+                )}
+                <span className="flex items-center gap-1">
+                  <FiCalendar size={11} /> {formatDate(job.deadline)}
+                </span>
+              </div>
+
+              {/* Applicants link */}
+              <Link href={`/employer/jobs/${job._id}/applicants`}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold mb-4 px-3 py-1.5 rounded-lg transition hover:opacity-80"
+                style={{ color: "var(--accent)", background: "var(--accent-soft)" }}>
+                <FiUsers size={12} />
+                {job.applicationCount} applicant{job.applicationCount !== 1 ? "s" : ""}
+              </Link>
+
+              {/* Actions */}
+              <div className="flex items-center gap-1 pt-3 border-t" style={{ borderColor: "var(--border)" }}>
+                <Link href={`/jobs/${job._id}`} target="_blank"
+                  className="p-2 rounded-lg transition hover:bg-[var(--bg-muted)]"
+                  style={{ color: "var(--text-sub)" }} title="View public listing">
+                  <FiExternalLink size={14} />
+                </Link>
+                <Link href={`/employer/jobs/${job._id}/edit`}
+                  className="p-2 rounded-lg transition hover:bg-[var(--bg-muted)]"
+                  style={{ color: "var(--text-sub)" }} title="Edit">
+                  <FiEdit2 size={14} />
+                </Link>
+                {(job.status === "active" || job.status === "paused") && (
+                  <button onClick={() => handleStatusToggle(job)}
+                    className="p-2 rounded-lg transition hover:bg-[var(--bg-muted)]"
+                    style={{ color: "var(--text-sub)" }}
+                    title={job.status === "active" ? "Pause" : "Unpause"}>
+                    {job.status === "active" ? <FiEyeOff size={14} /> : <FiEye size={14} />}
+                  </button>
+                )}
+                <button onClick={() => setConfirm({ id: job._id })}
+                  className="p-2 rounded-lg transition hover:bg-red-50 text-red-400 ml-auto"
+                  title="Close job">
+                  <FiTrash2 size={14} />
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

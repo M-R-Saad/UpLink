@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
 import CategoryForm from "../../../components/admin/CategoryForm";
+import CategoryIcon from "../../../components/ui/CategoryIcon";
 import Spinner from "../../../components/ui/Spinner";
 import toast from "react-hot-toast";
 
@@ -77,7 +78,10 @@ export default function AdminCategoriesPage() {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{cat.icon}</span>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>
+                  <CategoryIcon icon={cat.icon} size={18} />
+                </div>
                 <div>
                   <p className="text-sm font-semibold" style={{ color: "var(--text)" }}>{cat.name}</p>
                   <p className="text-xs" style={{ color: "var(--text-mute)" }}>

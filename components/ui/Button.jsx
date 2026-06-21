@@ -2,7 +2,7 @@
 import { cn } from "../../lib/utils";
 
 const variants = {
-  primary:   "bg-[var(--accent)] hover:opacity-90 text-white",
+  primary:   "bg-[var(--accent)] hover:opacity-90 text-white accent-glow",
   secondary: "bg-[var(--bg-muted)] hover:bg-[var(--border)] text-[var(--text)]",
   outline:   "border border-[var(--border)] hover:border-[var(--accent)] text-[var(--text)] bg-transparent",
   ghost:     "hover:bg-[var(--bg-muted)] text-[var(--text)] bg-transparent",

@@ -102,7 +102,7 @@ export default function ResumeBuilder({ onSave, saving }) {
       </div>
 
       {/* Right — Live Preview */}
-      <div className={`lg:w-[420px] xl:w-[460px] shrink-0 ${!showPreview ? "hidden lg:block" : ""}`}>
+      <div className={`lg:flex-1 ${!showPreview ? "hidden lg:block" : ""}`}>
         <div className="sticky top-6">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold" style={{ color: "var(--text-sub)" }}>

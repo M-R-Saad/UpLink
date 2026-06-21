@@ -20,7 +20,8 @@ async function getCompanies(search = "") {
 }
 
 export default async function CompaniesPage({ searchParams }) {
-  const companies = await getCompanies(searchParams?.search);
+  const resolvedSearchParams = await searchParams;
+  const companies = await getCompanies(resolvedSearchParams?.search);
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">

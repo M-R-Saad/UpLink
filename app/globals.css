@@ -10,26 +10,76 @@
   --bg:          #fafaf8;
   --bg-card:     #ffffff;
   --bg-muted:    #f4f3ef;
-  --border:      #e8e5de;
-  --text:        #1a1814;
-  --text-sub:    #6b6560;
-  --text-mute:   #a09990;
-  --accent:      #e8520a;
-  --accent-2:    #f97316;
-  --accent-soft: #fff1e8;
+  --border:      #e0e4ea;
+  --text:        #111827;
+  --text-sub:    #4b5563;
+  --text-mute:   #9ca3af;
+  --accent:      #0c2f89;
+  --accent-2:    #0e68c5;
+  --accent-soft: #e8f1fc;
+  --cta-1-from:  #0c2f89;
+  --cta-1-to:    #0e68c5;
+  --cta-2-from:  #0e68c5;
+  --cta-2-to:    #16e0ed;
+
+  /* Badge Variables */
+  --badge-red:           #dc2626;
+  --badge-red-soft:      #fef2f2;
+  --badge-green:         #16a34a;
+  --badge-green-soft:    #f0fdf4;
+  --badge-blue:          #2563eb;
+  --badge-blue-soft:     #eff6ff;
+  --badge-yellow:        #d97706;
+  --badge-yellow-soft:   #fffbeb;
+  --badge-purple:        #7c3aed;
+  --badge-purple-soft:   #f5f3ff;
+  --badge-cyan:          #0891b2;
+  --badge-cyan-soft:     #ecfeff;
+
+  --badge-admin:         var(--badge-red);
+  --badge-admin-soft:    var(--badge-red-soft);
+  --badge-employer:      var(--badge-green);
+  --badge-employer-soft: var(--badge-green-soft);
+  --badge-seeker:        var(--accent);
+  --badge-seeker-soft:   var(--accent-soft);
 }
 
 .dark {
-  --bg:          #111110;
-  --bg-card:     #1c1b19;
-  --bg-muted:    #242320;
-  --border:      #2e2d29;
-  --text:        #f0ede6;
-  --text-sub:    #9e9890;
-  --text-mute:   #5a5650;
-  --accent:      #f97316;
-  --accent-2:    #fb923c;
-  --accent-soft: #2a1a0e;
+  --bg:          #0b0f1a;
+  --bg-card:     #111827;
+  --bg-muted:    #1a2234;
+  --border:      #1e2d44;
+  --text:        #f0f4f8;
+  --text-sub:    #94a3b8;
+  --text-mute:   #4b5e78;
+  --accent:      #3ba4e0;
+  --accent-2:    #1596ce;
+  --accent-soft: #0c1e33;
+  --cta-1-from:  #2a8fd4;
+  --cta-1-to:    #1596ce;
+  --cta-2-from:  #1596ce;
+  --cta-2-to:    #0e68c5;
+
+  /* Badge Variables */
+  --badge-red:           #f87171;
+  --badge-red-soft:      #2d1a1a;
+  --badge-green:         #34d399;
+  --badge-green-soft:    #132d21;
+  --badge-blue:          #60a5fa;
+  --badge-blue-soft:     #142542;
+  --badge-yellow:        #fbbf24;
+  --badge-yellow-soft:   #342410;
+  --badge-purple:        #a78bfa;
+  --badge-purple-soft:   #251842;
+  --badge-cyan:          #22d3ee;
+  --badge-cyan-soft:     #0c2d3a;
+
+  --badge-admin:         var(--badge-red);
+  --badge-admin-soft:    var(--badge-red-soft);
+  --badge-employer:      var(--badge-green);
+  --badge-employer-soft: var(--badge-green-soft);
+  --badge-seeker:        var(--accent);
+  --badge-seeker-soft:   var(--accent-soft);
 }
 
 *, *::before, *::after {
@@ -50,3 +100,39 @@ body {
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+/* Card hover glow — use on interactive cards for a subtle accent shadow on hover */
+.card-glow {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card-glow:hover {
+  box-shadow: 0 8px 30px rgba(14, 104, 197, 0.10), 0 0 0 1px var(--border);
+  transform: translateY(-2px);
+}
+.dark .card-glow:hover {
+  box-shadow: 0 8px 30px rgba(22, 224, 237, 0.08), 0 0 0 1px var(--border);
+}
+
+/* Accent glow — for buttons and CTAs */
+.accent-glow {
+  box-shadow: 0 4px 14px rgba(14, 104, 197, 0.25);
+}
+.dark .accent-glow {
+  box-shadow: 0 4px 14px rgba(21, 150, 206, 0.3);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle focus ring */
+input:focus, select:focus, textarea:focus {
+  box-shadow: 0 0 0 3px rgba(14, 104, 197, 0.12);
+}
+.dark input:focus, .dark select:focus, .dark textarea:focus {
+  box-shadow: 0 0 0 3px rgba(21, 150, 206, 0.15);
+}

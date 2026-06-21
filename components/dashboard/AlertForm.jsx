@@ -6,6 +6,7 @@ import Input from "../ui/Input";
 import Select from "../ui/Select";
 import { useCreateAlert, useUpdateAlert } from "../../hooks/useAlerts";
 import { FiX, FiPlus } from "react-icons/fi";
+import CategoryIcon from "../ui/CategoryIcon";
 
 const JOB_TYPES = [
   { value: "full-time", label: "Full-time" },
@@ -194,14 +195,14 @@ export default function AlertForm({ open, onClose, editAlert, categories = [] })
                     key={cat._id}
                     type="button"
                     onClick={() => toggleCategory(cat._id)}
-                    className="text-xs px-3 py-1.5 rounded-lg font-medium transition-all border"
+                    className="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg font-medium transition-all border"
                     style={{
                       background: selected ? "var(--accent)" : "transparent",
                       color: selected ? "#fff" : "var(--text-sub)",
                       borderColor: selected ? "var(--accent)" : "var(--border)",
                     }}
                   >
-                    {cat.icon} {cat.name}
+                    <CategoryIcon icon={cat.icon} size={12} /> {cat.name}
                   </button>
                 );
               })}

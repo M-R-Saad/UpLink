@@ -68,16 +68,18 @@ export default function AlertsPage() {
           }
         />
       ) : (
-        <div className="space-y-3">
-          {alerts.map((alert) => (
-            <AlertCard key={alert._id} alert={alert} onEdit={handleEdit} />
-          ))}
+        <>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {alerts.map((alert) => (
+              <AlertCard key={alert._id} alert={alert} onEdit={handleEdit} />
+            ))}
+          </div>
 
           {/* Alert count */}
           <p className="text-xs text-center pt-2" style={{ color: "var(--text-mute)" }}>
             {alerts.length} of 10 alerts used
           </p>
-        </div>
+        </>
       )}
 
       {/* Create / Edit Modal */}

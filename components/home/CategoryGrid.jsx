@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CategoryIcon from "../ui/CategoryIcon";
 
 async function getCategories() {
   try {
@@ -43,7 +44,10 @@ export default async function CategoryGrid() {
                 className="flex flex-col items-center gap-2 p-5 rounded-2xl border text-center transition hover:shadow-md hover:-translate-y-1 duration-200"
                 style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}
               >
-                <span className="text-3xl">{cat.icon}</span>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-1"
+                  style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>
+                  <CategoryIcon icon={cat.icon} size={22} />
+                </div>
                 <span className="text-xs font-semibold" style={{ color: "var(--text)" }}>
                   {cat.name}
                 </span>

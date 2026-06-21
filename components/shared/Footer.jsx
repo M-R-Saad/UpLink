@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { FiBriefcase } from "react-icons/fi";
 
 const LINKS = {
   "For Job Seekers": [
@@ -26,12 +25,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           <div>
             <Link href="/" className="flex items-center gap-2 font-bold text-xl mb-3">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white"
-                style={{ background: "var(--accent)" }}>
-                <FiBriefcase size={13} />
-              </div>
-              <span style={{ color: "var(--text)" }}>Up</span>
-              <span style={{ color: "var(--accent)" }}>Link</span>
+              <img src="/uplink_logo_no_bg.png" alt="UpLink" className="w-7 h-7 object-contain" />
+              <span style={{ fontFamily: "'Playfair Display', serif", color: "var(--text)" }}>
+                Up<span style={{ color: "var(--accent)" }}>Link</span>
+              </span>
             </Link>
             <p className="text-sm leading-relaxed" style={{ color: "var(--text-sub)" }}>
               Connecting talented professionals with great opportunities across Bangladesh and beyond.
