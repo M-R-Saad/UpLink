@@ -5,7 +5,7 @@ async function getCategories() {
   try {
     const res = await fetch(
       `${process.env.NEXTAUTH_URL}/api/categories`,
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 60 } }
     );
     const json = await res.json();
     return json.data || [];

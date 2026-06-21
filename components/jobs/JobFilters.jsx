@@ -1,11 +1,12 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import CategoryIcon from "../ui/CategoryIcon";
 
 const JOB_TYPES     = ["full-time","part-time","contract","internship","freelance"];
 const LOCATION_TYPES= ["onsite","remote","hybrid"];
 const EXPERIENCE    = ["entry","mid","senior","lead"];
 
-const FilterGroup = ({ title, items, filterKey, labelFn, currentVal, onToggle }) => (
+const FilterGroup = ({ title, items, filterKey, labelFn, renderLabel, currentVal, onToggle }) => (
   <div className="mb-5">
     <p className="text-xs font-semibold uppercase tracking-widest mb-2"
       style={{ color: "var(--text-mute)" }}>{title}</p>
@@ -17,13 +18,13 @@ const FilterGroup = ({ title, items, filterKey, labelFn, currentVal, onToggle })
         return (
           <button key={val}
             onClick={() => onToggle(filterKey, active ? "" : val)}
-            className="w-full text-left px-3 py-1.5 rounded-lg text-sm transition capitalize"
+            className="w-full text-left px-3 py-1.5 rounded-lg text-sm transition capitalize flex items-center gap-2"
             style={{
               background: active ? "var(--accent-soft)" : "transparent",
               color:      active ? "var(--accent)"      : "var(--text-sub)",
               fontWeight: active ? 600                  : 400,
             }}>
-            {label}
+            {renderLabel ? renderLabel(item) : label}
           </button>
         );
       })}
@@ -63,7 +64,12 @@ export default function JobFilters({ categories = [] }) {
       {categories.length > 0 && (
         <FilterGroup
           title="Category" filterKey="category" items={categories}
-          labelFn={(c) => `${c.icon} ${c.name}`}
+          renderLabel={(c) => (
+            <>
+              <CategoryIcon icon={c.icon} size={14} />
+              {c.name}
+            </>
+          )}
           currentVal={current("category")}
           onToggle={updateFilter}
         />
